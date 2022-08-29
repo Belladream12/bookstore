@@ -32,6 +32,12 @@ variable "operating_system" {
   type = string
 }
 
+variable "additonal_sg_cidrs" {
+    type = list(string)
+    description = "additional cidrs allowed to access rds cluster"
+    default = []
+}
+
 
 # asg vars
 variable "ssh_key_name" {

@@ -49,6 +49,11 @@ variable "elb_timeout" {
 variable "elb_interval" {
 }
 
+variable "additonal_sg_cidrs" {
+    type = list(string)
+    description = "additional cidrs allowed to access rds cluster"
+    default = []
+}
 
 # asg vars
 variable "asg_ssh_key_name" {

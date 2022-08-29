@@ -32,6 +32,12 @@ variable "operating_system" {
   type = string
 }
 
+variable "additonal_sg_cidrs" {
+    type = list(string)
+    description = "additional cidrs allowed to access rds cluster"
+    default = []
+}
+
 // variable "subnet_filter_tag" {
 //   description = "name used to filter subnets used by asg. Options are public, private, and database"
 //   type        = string

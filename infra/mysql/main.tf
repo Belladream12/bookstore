@@ -2,12 +2,9 @@ provider "aws" {
   region = "us-east-1"
 }
 
-##############################################################
-# Data sources to get VPC, subnets and security group details
-##############################################################
-// data "aws_vpc" "default" {
-//   default = true
-// }
+resource "random_id" "random" {
+  byte_length = 2
+}
 
 resource "aws_security_group" "rds_sg" {
   name        = "rds sg"
@@ -19,7 +16,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    cidr_blocks = [data.aws_vpc.vpc.cidr_block]
   }
 
   ingress {
@@ -27,7 +24,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [for s in data.aws_subnet.private_subnet_list: s.cidr_block]
+    cidr_blocks = [for s in data.aws_subnet.public_subnet_list: s.cidr_block]
   }
 
   ingress {
@@ -35,7 +32,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["73.128.10.169/32"]
+    cidr_blocks = var.additonal_sg_cidrs
   }
 
   egress {
@@ -46,59 +43,44 @@ resource "aws_security_group" "rds_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 
-#####
-# DB
-#####
 module "db" {
-  source = "../modules/aws-rds"
+  source  = "terraform-aws-modules/rds/aws"
+  version = "5.0.3"
 
-  identifier = "aurora-demodb"
+  identifier = local.db_name
 
-  # All available versions: http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt
-  engine            = "mysql"
-  engine_version    = "5.7.23"
-  instance_class    = "db.r5.large"
+  engine            = var.rds_engine
+  major_engine_version = var.rds_engine_major_version
+  engine_version    = var.rds_engine_minor_version
+  instance_class    = var.rds_instance_type
+  family = var.rds_engine_family_version
+  
   allocated_storage = 30
   storage_encrypted = false
 
   # kms_key_id        = "arm:aws:kms:<region>:<account id>:key/<kms key id>"
-  name     = "demodb"
-  username = "user"
-  password = "YourPwdShouldBeLongAndSecure!"
+  iam_database_authentication_enabled = false
+  db_name     = var.db_name
+  username = var.db_user_name
+  password = var.db_user_password
   port     = "3306"
 
+  create_db_subnet_group = true
+  subnet_ids = [for s in data.aws_subnet.public_subnet_list: s.id]
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  multi_az = false
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
-
-  multi_az = true
-
-  # disable backups to create DB faster
   backup_retention_period = 0
-
-  tags = var.tags
+  skip_final_snapshot = true
+  deletion_protection = false
 
   enabled_cloudwatch_logs_exports = ["error", "general"]
-
-  # DB subnet group
-  subnet_ids = [for s in data.aws_subnet.private_subnet_list: s.id]
-
-  # DB parameter group
-  family = "mysql5.7"
-
-  # DB option group
-  major_engine_version = "5.7"
-
-  # Snapshot name upon DB deletion
-  final_snapshot_identifier = "aurora-demodb-snapshot"
-
-  # Database Deletion Protection
-  deletion_protection = false
 
   parameters = [
     {
@@ -111,16 +93,17 @@ module "db" {
     }
   ]
 
-  // options = [
-  //   {
-  //     option_name = "Timezone"
+  # options = [
+  #   {
+  #     option_name = "Timezone"
+  #     option_settings = [
+  #       {
+  #         name  = "TIME_ZONE"
+  #         value = "UTC"
+  #       },
+  #     ]
+  #   },
+  # ]
 
-  //     option_settings = [
-  //       {
-  //         name  = "TIME_ZONE"
-  //         value = "UTC"
-  //       },
-  //     ]
-  //   },
-  // ]
+  tags = local.tags
 }

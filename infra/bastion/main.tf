@@ -82,6 +82,12 @@ resource "aws_security_group" "instance_sg" {
     protocol    = "-1"
     cidr_blocks = var.security_group_allow_public_cidrs
   }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = var.additonal_sg_cidrs
+  }
   egress {
     from_port   = 0
     to_port     = 0

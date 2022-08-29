@@ -51,7 +51,9 @@ variable "instance_root_device_size" {
   type = number
 }
 
-variable "my_ip_cidr" {
-  type = string
+variable "additonal_sg_cidrs" {
+    type = list(string)
+    description = "additional cidrs allowed to access rds cluster"
+    default = []
 }
 
