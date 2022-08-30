@@ -1,0 +1,14 @@
+- name: Deploy Bookstore Web App to EC2 Instance
+  hosts: local
+
+  tasks: 
+    - name: Download artifact from Nexus repo
+      maven_artifact:
+        group_id: com.bookstore
+        artifact_id: com.bookstore
+        repository_url: 'http://ec2-52-91-212-69.compute-1.amazonaws.com:8081/repository/maven-releases/'
+        username: admin
+        password: pass
+        dest: /tmp/customerfile.jar
+
+

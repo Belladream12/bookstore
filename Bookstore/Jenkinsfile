@@ -29,7 +29,7 @@ pipeline {
             environment {
                 NEXUS_VERSION = "nexus3"
                 NEXUS_PROTOCOL = "http"
-                NEXUS_URL = "bookstore-nexus-repo-alb-54b3-634000492.us-east-1.elb.amazonaws.com"
+                NEXUS_URL = "ec2-52-91-212-69.compute-1.amazonaws.com:8081"
                 NEXUS_REPOSITORY = "bookstore-app"
                 NEXUS_CREDENTIAL_ID = "nexus-admin-creds"
             }
