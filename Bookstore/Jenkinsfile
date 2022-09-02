@@ -60,13 +60,16 @@ pipeline {
             }
         }
         stage(" execute Ansible") {
-           steps {
-                ansiblePlaybook colorized: true,
-                credentialsId: 'app-ssh', 
-                disableHostKeyChecking: true, 
-                installation: 'Ansible', 
-                inventory: 'inv.yaml', 
-                playbook: 'deploy.yaml'
+            agent any
+            steps {
+                dir('Bookstore') {
+                    ansiblePlaybook colorized: true,
+                    credentialsId: 'app-ssh', 
+                    disableHostKeyChecking: true, 
+                    installation: 'Ansible', 
+                    inventory: 'inv.yaml', 
+                    playbook: 'deploy.yaml'
+                }
             }    
         }  
     }
