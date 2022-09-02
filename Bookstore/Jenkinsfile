@@ -12,11 +12,6 @@ pipeline {
             agent {
                 docker { image 'maven:3.8.6-openjdk-8' }
             }
-            environment {
-                SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/bookstoredatabase?autoReconnect=true&useSSL=false"
-                SPRING_DATASOURCE_USERNAME="admin"
-                SPRING_DATASOURCE_PASSWORD=credentials('bookstore-db-pass')
-            }
             steps {
                 sh """
                 cd Bookstore && \
