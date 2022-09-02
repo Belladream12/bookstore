@@ -24,7 +24,7 @@ pipeline {
             environment {
                 NEXUS_VERSION = "nexus3"
                 NEXUS_PROTOCOL = "http"
-                NEXUS_URL = "ec2-52-91-212-69.compute-1.amazonaws.com:8081"
+                NEXUS_URL = "ec2-54-172-107-102.compute-1.amazonaws.com:8081"
                 NEXUS_REPOSITORY = "bookstore-app"
                 NEXUS_CREDENTIAL_ID = "nexus-admin-creds"
             }
