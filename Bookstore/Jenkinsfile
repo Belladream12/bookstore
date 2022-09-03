@@ -59,8 +59,10 @@ pipeline {
                 }
             }
         }
-        stage(" execute Ansible") {
-            agent any
+        stage("Ansible Deploy jar to app server") {
+            agent {
+                docker { image 'ansible/ansible' }
+            }
             steps {
                 dir('Bookstore') {
                     ansiblePlaybook colorized: true,
