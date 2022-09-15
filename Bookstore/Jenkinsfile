@@ -6,7 +6,7 @@ pipeline {
         stage('Build app') { 
             steps {
                 sh """
-                cd bookstore-web-app && \
+                cd bookstore-app@tmp && \
                 mvn clean install -DskipTest
                 """
             }        
