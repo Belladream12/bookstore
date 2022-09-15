@@ -32,7 +32,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.additonal_sg_cidrs
+    cidr_blocks = "100.36.232.139"
   }
 
   egress {
@@ -64,9 +64,9 @@ module "db" {
 
   # kms_key_id        = "arm:aws:kms:<region>:<account id>:key/<kms key id>"
   iam_database_authentication_enabled = false
-  db_name     = var.db_name
-  username = var.db_user_name
-  password = var.db_user_password
+  db_name  = "bookstoredatabase"
+  username = "admin"
+  password = "adminpassword"
   port     = "3306"
 
   create_db_subnet_group = true
