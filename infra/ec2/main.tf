@@ -86,8 +86,9 @@ resource "aws_security_group" "asg_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.additonal_sg_cidrs
+    cidr_blocks = ["108.51.77.31/32"]
   }
+  
   egress {
     from_port   = 0
     to_port     = 0
@@ -107,13 +108,7 @@ resource "aws_security_group" "asg_alb_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.additonal_sg_cidrs
-  }
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [data.aws_vpc.selected.cidr_block]
+    cidr_blocks = ["108.51.77.31/32"]
   }
   egress {
     from_port   = 0
