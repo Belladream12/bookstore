@@ -28,7 +28,7 @@ pipeline {
                         pom = readMavenPom file: "pom.xml";
                         artifactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}";
                         artifactExists = fileExists artifactPath;
-                        if(artifactExist) {
+                        if(artifactExists) {
                             nexusArtifactUploader(
                                 nexusVersion : NEXUS_VERSION,
                                 protocol : NEXUS_PROTOCOL,
