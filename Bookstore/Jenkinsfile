@@ -24,7 +24,7 @@ pipeline {
             }
             steps { 
                 dir('Bookstore') {
-                    scrips {
+                    script {
                         pom = readMavenPom file: "pom.xml";
                         artifactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}";
                         artifactExists = fileExists artifactPath;
