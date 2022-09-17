@@ -13,9 +13,9 @@ pipeline {
                 } 
             }        
         }
-        stage('publish to nexus repo') { //
+        stage('publish to nexus repo') { 
             agent any
-            enviroment {
+            environment {
                 NEXUS_VERSION = "nexus3"
                 NEXUS_PROTOCOL = "http"
                 NEXUS_URL = "ec2-34-201-49-155.compute-1.amazonaws.com:8081"
