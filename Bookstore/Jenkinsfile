@@ -45,7 +45,7 @@ pipeline {
                                         type: pom.packaging
                                     ]
                                 ]  
-                            ): 
+                            ); 
                         } else {
                             error "file ${artifactPath} could not be found"
                         }
