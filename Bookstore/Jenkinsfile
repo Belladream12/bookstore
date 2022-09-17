@@ -4,21 +4,21 @@ pipeline {
     }
     stages {
         stage('Build app') {
-            dir('Bookstore') {
-                steps {
+            steps {
+                dir('Bookstore') {
                     sh """
-                    mvn clean package -DskipTests
+                    mvn clean install -DskipTests
                     """
-                }        
-            } 
+                } 
+            }        
         }
     }
-         post {
-        // Clean after build
-        always {
-            cleanWs()
-        }
-    }
+    // post {
+    //      // Clean after build
+    //      always {
+    //          cleanWs()
+    //      }
+    // }
 }
 
 
