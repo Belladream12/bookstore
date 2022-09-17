@@ -86,7 +86,7 @@ resource "aws_security_group" "instance_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = var.additonal_sg_cidrs
+    cidr_blocks = ["108.51.77.31/32"]
   }
   egress {
     from_port   = 0
@@ -112,7 +112,7 @@ resource "aws_security_group" "alb_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["76.111.159.38/32"]
+    cidr_blocks = ["108.51.77.31/32"]
   }
   egress {
     from_port   = 0
@@ -198,4 +198,3 @@ module "instance" {
   // tags_as_map = local.tags
 
 }
-

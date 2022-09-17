@@ -1,4 +1,3 @@
-
 variable "vpc_id" {
   type    = string
   default = "vpc-xxxxxxx"
@@ -32,12 +31,6 @@ variable "operating_system" {
   type = string
 }
 
-variable "additonal_sg_cidrs" {
-    type = list(string)
-    description = "additional cidrs allowed to access rds cluster"
-    default = []
-}
-
 
 # asg vars
 variable "ssh_key_name" {
@@ -56,4 +49,3 @@ variable "instance_type" {
 variable "instance_root_device_size" {
   type = number
 }
-

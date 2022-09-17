@@ -59,4 +59,3 @@ sudo chkconfig nexus on
 
 # start nexus service
 sudo systemctl start nexus
-
