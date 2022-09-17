@@ -1,9 +1,10 @@
 pipeline {
-    agent {
-        docker { image 'maven:3.8.6-openjdk-8' }
-    }
+    agent any
     stages {
         stage('Build app') {
+             agent {
+                docker { image 'maven:3.8.6-openjdk-8' }
+            }
             steps {
                 dir('Bookstore') {
                     sh """
@@ -25,10 +26,10 @@ pipeline {
                 dir('Bookstore') {
                     scrips {
                         pom = readMavenPom file: "pom.xml";
-                        articactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}";
-                        arifactExists = fileExists artifactPath;
-                        if(articactExist) {
-                            nexusArticactUploader(
+                        artifactPath = "target/${pom.artifactId}-${pom.version}.${pom.packaging}";
+                        artifactExists = fileExists artifactPath;
+                        if(artifactExist) {
+                            nexusArtifactUploader(
                                 nexusVersion : NEXUS_VERSION,
                                 protocol : NEXUS_PROTOCOL,
                                 nexusUrl : NEXUS_URL,
@@ -58,6 +59,7 @@ pipeline {
           always {
               cleanWs()
           }
+    }
 }
 
 
